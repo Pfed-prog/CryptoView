@@ -3,6 +3,8 @@ const express = require("express");
 const dotenv = require("dotenv");
 const process = require("process");
 const workoutRoutes = require("./routes/workouts.js");
+const nftRoutes = require("./routes/NFTs.js");
+const userRoutes = require("./routes/user.js");
 const usersRoutes = require("./routes/users.js");
 const transactionsRoutes = require("./routes/Transactions.js");
 const userPortfolio = require("./routes/userPortfolio.js");
@@ -43,8 +45,12 @@ mongoose
     console.log(`connected to db`);
   })
   .catch((error) => {
-    // console.log(error);
+    console.log(error);
   });
+
+app.use("/test/user/", userRoutes);
+
+app.use("/test/nft/", nftRoutes);
 
 app.listen(process.env.PORT, () => {
   console.log(`listening on port ${process.env.PORT}`);
