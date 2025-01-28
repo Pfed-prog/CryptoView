@@ -14,7 +14,7 @@ const getNft = async (req, res) => {
   const imageUrl = jsonData.metadata.image;
   const attributes = jsonData.metadata.attributes;
 
-  const abc = await nftModel
+  const databaseNft = await nftModel
     .find({
       name: name,
       imageUrl: imageUrl,
@@ -23,7 +23,7 @@ const getNft = async (req, res) => {
     })
     .exec();
 
-  if (abc.length === 0) {
+  if (databaseNft.length === 0) {
     try {
       const workout = await nftModel.create({
         name: name,
@@ -37,6 +37,8 @@ const getNft = async (req, res) => {
     } catch (error) {
       res.status(400).json({ error: error.message });
     }
+  } else {
+    res.status(200).json(databaseNft);
   }
 };
 

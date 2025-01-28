@@ -18,11 +18,11 @@ const getTransactions = async (req, res) => {
 
   const lastHash = data.items[0].hash;
 
-  const abc = await AddressTransactionsModel.find({
+  const dbTransactions = await AddressTransactionsModel.find({
     lastHash: lastHash,
   }).exec();
 
-  if (abc.length === 0) {
+  if (dbTransactions.length === 0) {
     try {
       const workout = await AddressTransactionsModel.create({
         user: user,
@@ -33,6 +33,8 @@ const getTransactions = async (req, res) => {
     } catch (error) {
       res.status(400).json({ error: error.message });
     }
+  } else {
+    res.status(200).json(dbTransactions);
   }
 };
 
